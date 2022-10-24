@@ -1,4 +1,4 @@
-# Google Satellite Imagery by Geographic Coordinates
+# Get Satellite Imagery by Geographic Coordinates
 
 Download Google Maps satellite images of any resolution by geographic coordinates.
 
