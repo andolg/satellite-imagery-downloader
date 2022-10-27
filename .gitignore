@@ -3,6 +3,7 @@ generated/
 images/
 .vscode/
 t.py
+preferences.json
 
 # .gitignore from https://github.com/github/gitignore/blob/main/Python.gitignore
 

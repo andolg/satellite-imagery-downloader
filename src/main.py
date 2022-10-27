@@ -78,10 +78,10 @@ def run():
     generate_image(lat1, lon1, lat2, lon2, zoom, prefs['url'], prefs['headers'], prefs['dir'])
 
 
-if (os.path.isfile('preferences.json')):
+prefs_path = os.path.join(file_dir, 'preferences.json')
+if os.path.isfile(prefs_path):
     run()
 else:
-    prefs_path = os.path.join(file_dir, 'preferences.json')
     with open(prefs_path, 'w') as f:
         f.write(json.dumps(default_prefs, indent=2))
 
