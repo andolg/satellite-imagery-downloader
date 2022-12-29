@@ -1,12 +1,14 @@
 import os
 import json
+import re
+import cv2
+from datetime import datetime
 
-from image_generation import generate_image
+from image_downloading import download_image_mt
 
 file_dir = os.path.dirname(__file__)
-
 default_prefs = {
-    'url': 'https://khms0.google.com/kh/v=932?x={x}&y={y}&z={z}',
+    'url': 'https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}',
     'dir': os.path.join(file_dir, 'images'),
     'region_ul': '',
     'region_br': '',
@@ -27,25 +29,15 @@ default_prefs = {
 
 
 def take_input(messages):
-    inputs = [0] * len(messages)
-
+    inputs = []
     print('Enter "r" to reset or "q" to exit.')
-    i = 0
-    while i < 5:
-        inp = input(messages[i])
-        if inp == 'q':
+    for message in messages:
+        inp = input(message)
+        if inp == 'q' or inp == 'Q':
             return None
-        if inp == 'r':
+        if inp == 'r' or inp == 'R':
             return take_input(messages)
-
-        try:
-            inputs[i] = float(inp)
-        except ValueError:
-            print('Not a number.')
-            continue
-
-        i += 1
-
+        inputs.append(inp)
     return inputs
 
 
@@ -57,25 +49,31 @@ def run():
         os.mkdir(prefs['dir'])
 
     if (prefs['region_ul'] == '') or (prefs['region_br'] == '') or (prefs['zoom'] == ''):
-        messages = ['Upper-left lat: ', 'Upper-left lon: ', 'Bottom-right lat: ', 'Bottom-right lon: ', 'Zoom level: ']
+        messages = ['Upper-left corner: ', 'Bottom-right corner: ', 'Zoom level: ']
         inputs = take_input(messages)
         if inputs is None:
             return
         else:
-            lat1, lon1, lat2, lon2, zoom = inputs
+            ul, br, zoom = inputs
+            lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', ul)
+            lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', br)
             zoom = int(zoom)
     else:
-        lat1, lon1 = prefs['region_ul'].split(',')
-        lat1 = float(lat1)
-        lon1 = float(lon1)
-
-        lat2, lon2 = prefs['region_br'].split(',')
-        lat2 = float(lat2)
-        lon2 = float(lon2)
-
+        lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['region_ul'])
+        lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['region_br'])
         zoom = int(prefs['zoom'])
 
-    generate_image(lat1, lon1, lat2, lon2, zoom, prefs['url'], prefs['headers'], prefs['dir'])
+    lat1 = float(lat1)
+    lon1 = float(lon1)
+    lat2 = float(lat2)
+    lon2 = float(lon2)
+
+    img = download_image_mt(lat1, lon1, lat2, lon2, zoom, prefs['url'], prefs['headers'])
+
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    name = f'img_{timestamp}.png'
+    cv2.imwrite(os.path.join(prefs['dir'], name), img)
+    print(f'Saved as {name}')
 
 
 prefs_path = os.path.join(file_dir, 'preferences.json')
@@ -85,4 +83,4 @@ else:
     with open(prefs_path, 'w') as f:
         f.write(json.dumps(default_prefs, indent=2))
 
-    print(f'The preferences file has been created in {prefs_path}')
+    print(f'Preferences file created in {prefs_path}')
