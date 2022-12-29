@@ -24,6 +24,7 @@ On the first run, the script will create a JSON preferences file.
 * `"zoom"` is the zoom level. At each zoom level, there are four times as many 256x256 tiles in a region as at the previous zoom level.
 * `"headers"` are the headers that the script will use to make HTTP requests.
 <br>
+
 ### Map Tile URL
 To get a tile url, you need to inspect network activity. Most web browsers have developer tools that allow you to do this.
 
