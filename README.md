@@ -23,7 +23,6 @@ On the first run, the script will create a JSON preferences file.
 * `"region_ul"` and `"region_br"` are the coordinates (decimal degrees, e.g. <nobr>`"40.612123, -73.895381"`</nobr>) of the upper-left and bottom-right corners of the required region. Leave these empty to enter the coordinates in the terminal.
 * `"zoom"` is the zoom level. At each zoom level, there are four times as many 256x256 tiles in a region as at the previous zoom level.
 * `"headers"` are the headers that the script will use to make HTTP requests.
-<br>
 
 ### Map Tile URL
 To get a tile url, you need to inspect network activity. Most web browsers have developer tools that allow you to do this.
@@ -35,6 +34,7 @@ If you are using Google Chrome, open DevTools (Ctrl+Shift+J) and go to the Netwo
 double click on it, copy the url and replace its x, y and z values with `{x}`, `{y}` and `{z}`. You should get something like this: `https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}`.
 
 You can also just change the `v=` in the default url template.
+<br>
 
 ---
 ## Examples
