@@ -27,11 +27,11 @@ On the first run, the script will create a JSON preferences file.
 ### Map Tile URL
 To get a tile url, you need to inspect network activity. Most web browsers have developer tools that allow you to do this.
 
-If you are using Google Chrome, open DevTools (Ctrl+Shift+J) and go to the Network panel, which shows all the resources that are being downloaded and uploaded by the browser. Open Google Maps and switch to satellite view. In the Network panel, find a tile,
+If you are using Google Chrome, open DevTools (Ctrl+Shift+J) and go to the Network panel, which shows all the resources that are being downloaded and uploaded by the browser.
 
 ![](img/img_5.png)
 
-double click on it, copy the url and replace its x, y and z values with `{x}`, `{y}` and `{z}`. You should get something like this: `https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}`.
+Open Google Maps and switch to satellite view. In the Network panel, find a tile, double click on it, copy the url and replace its x, y and z values with `{x}`, `{y}` and `{z}`. You should get something like this: `https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}`.
 
 You can also just change the `v=` in the default url template.
 <br>
