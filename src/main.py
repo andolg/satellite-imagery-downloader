@@ -10,8 +10,8 @@ file_dir = os.path.dirname(__file__)
 default_prefs = {
     'url': 'https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}',
     'dir': os.path.join(file_dir, 'images'),
-    'region_ul': '',
-    'region_br': '',
+    'tl': '',
+    'br': '',
     'zoom': '',
     'headers': {
         'cache-control': 'max-age=0',
@@ -48,19 +48,19 @@ def run():
     if not os.path.isdir(prefs['dir']):
         os.mkdir(prefs['dir'])
 
-    if (prefs['region_ul'] == '') or (prefs['region_br'] == '') or (prefs['zoom'] == ''):
-        messages = ['Upper-left corner: ', 'Bottom-right corner: ', 'Zoom level: ']
+    if (prefs['tl'] == '') or (prefs['br'] == '') or (prefs['zoom'] == ''):
+        messages = ['Top-left corner (lat, lon): ', 'Bottom-right corner (lat, lon): ', 'Zoom level: ']
         inputs = take_input(messages)
         if inputs is None:
             return
         else:
-            ul, br, zoom = inputs
-            lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', ul)
+            tl, br, zoom = inputs
+            lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', tl)
             lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', br)
             zoom = int(zoom)
     else:
-        lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['region_ul'])
-        lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['region_br'])
+        lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['tl'])
+        lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['br'])
         zoom = int(prefs['zoom'])
 
     lat1 = float(lat1)
