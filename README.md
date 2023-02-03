@@ -1,58 +1,76 @@
-# Get Satellite Imagery by Geographic Coordinates
+# Satellite Imagery Downloader
 
-A Python script that downloads the satellite image of a rectangular area by its geographic coordinates.
+A Python program that downloads a rectangular map region by its geographic coordinates and saves it as a PNG image. It works by downloading map tiles at a given zoom level and cropping border tiles to fit the region.
 
-The script downloads the required map tiles at a specific zoom level and crops border tiles so that the image exactly matches the area. Works perfectly with Google Maps.
+This program should work with any raster map that uses [Web Mercator](https://en.wikipedia.org/wiki/Web_Mercator_projection), including Google Maps, Esri and OpenStreetMap.
 
-Images are saved as PNG.
-
-![](img/examples/img_1.png)
-<sub><sub>© 2023 Google<sub><sub>
+![](img/img_1.png)
+<nobr><sup><sup>© 2023 Google</sup></sup></nobr>
 
 ## Usage
 
-Install the required packages.<br>
+>Please note that downloading map tiles without using the API may violate the map service's terms of use.
+
+Make sure you have Python 3 installed.
+
+Install the required packages.
 ```cmd
 pip install -r requirements.txt
 ```
 Run `main.py`.
 
-On the first run, the script will create a JSON preferences file.
+On the first run, the program will create a preferences file next to `main.py`. If you run the program again, you will be asked to enter the coordinates and zoom level in the command line.
+
+Enter the coordinates of the top-left and bottom-right corners of an area as decimal degrees (latitude before longitude) with any separator you want, e.g. <nobr>`40.612123, -73.895381`</nobr>.
+
+Enter the zoom level at which you want to get the image. [This article](https://learn.microsoft.com/en-us/bingmaps/articles/understanding-scale-and-resolution) explains how it affects the scale and resolution.
+
+Google Maps satellite imagery will be used by default.
 
 ### Preferences file
-* `"url"` is the url template that the script will use to get map tiles. The default url may no longer work. In that case, you would need to obtain a new one.
-* `"dir"` is the directory where the new images will be saved.
-* `"tl"` and `"br"` are the coordinates (decimal degrees, e.g. <nobr>`"40.612123, -73.895381"`</nobr>) of the top-left and bottom-right corners of the area. Leave these empty to enter the coordinates in the terminal.
-* `"zoom"` is the zoom level. At each zoom level, there are four times as many 256x256 tiles in a part of the map as at the previous zoom level.
-* `"headers"` are the headers that the script will use to make HTTP requests.
+* `"url"` is the URL template that the program will use to download map tiles.
+* `"tile_size"` is the size of a single tile in pixels. The default is 256. 
+* `"tile_format"` determines how tiles will be decoded. The default is `"jpg"`. Use `"png"` for transparent tiles, such as in roads-only layers.
+* `"dir"` is the directory where your images will be saved. If the directory doesn't exist, it will be created automatically.
+* `"headers"` are the headers that the program will use to make HTTP requests.
 
-### Map Tile URL
-To get a tile url, you need to inspect network activity. Most web browsers have developer tools that allow you to do this.
+Optional:
 
-If you are using Google Chrome, open DevTools (Ctrl+Shift+J) and go to the Network panel, which shows all the resources that are being downloaded and uploaded by the browser.
+`preferences.json` can also be used to specify the coordinates and zoom level. If you leave one or more of the following fields empty, you will be asked to use the command line instead.
 
-![](img/img_6.png)
+* `"tl"` and `"br"` are the coordinates of the top-left and bottom-right corners of a rectangular area.
+* `"zoom"` is the zoom level.
 
-Open Google Maps and switch to satellite view. In the Network panel, find a tile, double click on it, copy the url and replace its x, y and z values with `{x}`, `{y}` and `{z}`. You should get something like this: `https://khms0.google.com/kh/v=937?x={x}&y={y}&z={z}`.
+### Tile URL
+Here are some tile URLs that you can use:
 
-You can also just change the `v=` in the default url template.
+* Google maps satellite imagery: `https://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={z}` (Default `"url"`)
+* Google Maps raster road map: `https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}`
+* OpenStreetMap: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
+* Esri satellite imagery: `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`
+
+If you need to use tiles from a different map service, you can try to get the URL by inspecting network activity in your browser. Open developer tools (Ctrl+Shift+I) and go to the Network panel. If you scroll the map, it will show you what resources are being loaded. Find a tile, copy the URL and replace the coordinate and zoom values with `{x}`, `{y}` and `{z}`.
+
+![](img/img_7.png)
+
+If you encounter any problems with the program, feel free to open an issue.
 
 ---
 ## Examples
 
-Example images in high resolution: [/img/examples/full_res/](/img/examples/full_res/)
+Example images in high resolution: https://mega.nz/folder/7sxTwALS#n2bFCYk9JsiU7nbVQH-ntw
 
-![](img/examples/img_2.png)
-<sub><sub>© 2022 Google<sub><sub>
-<br><br>
+![](img/img_2.png)
+<nobr><sup><sup>© 2022 Google</sup></sup></nobr>
 
-![](img/examples/img_3.png)
-<sub><sub>© 2022 Google<sub><sub>
-<br><br>
+![](img/img_3.png)
+<nobr><sup><sup>© 2022 Google</sup></sup></nobr>
 
-![](img/examples/img_4.png)
-<sub><sub>© 2022 Google<sub><sub>
-<br><br>
+![](img/img_4.png)
+<nobr><sup><sup>© 2022 Google</sup></sup></nobr>
 
-![](img/examples/img_5.png)
-<sub><sub>© 2023 Google<sub><sub>
+![](img/img_5.png)
+<nobr><sup><sup>© 2023 Google</sup></sup></nobr>
+
+![](img/img_6.png)
+<nobr><sup><sup>© OpenStreetMap</sup></sup></nobr>
