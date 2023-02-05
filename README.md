@@ -41,6 +41,8 @@ Optional:
 * `"tl"` and `"br"` are the coordinates of the top-left and bottom-right corners of a rectangular area.
 * `"zoom"` is the zoom level.
 
+If you encounter any problems with the program, feel free to open an issue.
+
 ### Tile URL
 Here are some tile URLs that you can use:
 
@@ -49,11 +51,9 @@ Here are some tile URLs that you can use:
 * OpenStreetMap: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
 * Esri satellite imagery: `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`
 
-If you need to use tiles from a different map service, you can try to get the URL by inspecting network activity in your browser. Open developer tools (Ctrl+Shift+I) and go to the Network panel. If you scroll the map, it will show you what resources are being loaded. Find a tile, copy the URL and replace the coordinate and zoom values with `{x}`, `{y}` and `{z}`.
+If you need to use tiles from a different map service, you can try to get the URL by inspecting network activity in your browser. Open developer tools (Ctrl+Shift+I) and go to the Network panel. If you scroll the map, it will show you what resources are being loaded. Find a tile, copy the URL and replace its coordinate and zoom values with `{x}`, `{y}` and `{z}`.
 
 ![](img/img_7.png)
-
-If you encounter any problems with the program, feel free to open an issue.
 
 ---
 ## Examples
