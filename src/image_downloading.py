@@ -102,10 +102,10 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
 
 
 def image_size(lat1: float, lon1: float, lat2: float,
-    lon2: float, zoom: int, tile_size: int = 256) -> tuple[int, int]:
-    """ Returns the size of an image without downloading it. """
+    lon2: float, zoom: int, tile_size: int = 256):
+    """ Calculates the size of an image without downloading it. Returns a `(width, height)` tuple. """
 
-    scale = 1<<int(zoom)
+    scale = 1 << zoom
     tl_proj_x, tl_proj_y = project_with_scale(lat1, lon1, scale)
     br_proj_x, br_proj_y = project_with_scale(lat2, lon2, scale)
 
