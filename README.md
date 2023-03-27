@@ -9,7 +9,7 @@ This program should work with any raster map that uses [Web Mercator](https://en
 
 ## Usage
 
->Please note that downloading map tiles without using the API may violate the map service's terms of use.
+> Please note that downloading map tiles without using the API may violate the map service's terms of use.
 
 Make sure you have Python 3 installed.
 
@@ -19,18 +19,18 @@ pip install -r requirements.txt
 ```
 Run `main.py`.
 
-On the first run, the program will create a preferences file next to `main.py`. If you run the program again, you will be asked to enter the coordinates and zoom level in the command line.
+On the first run, the program will create a preferences file next to `main.py`. Run the program again. Now you will be asked to enter the coordinates and zoom level in the command line.
 
-Enter the coordinates of the top-left and bottom-right corners of an area as decimal degrees (latitude before longitude) with any separator you want, e.g. <nobr>`40.612123, -73.895381`</nobr>.
+* Enter the coordinates of the top-left and bottom-right corners of a rectangular region as decimal degrees (latitude before longitude) with any separator you want, e.g. <nobr>`40.612123, -73.895381`</nobr>.
 
-Enter the zoom level at which you want to get the image. [This article](https://learn.microsoft.com/en-us/bingmaps/articles/understanding-scale-and-resolution) explains how it affects the scale and resolution.
+* Enter the zoom level at which you want to get the image. [This article](https://learn.microsoft.com/en-us/bingmaps/articles/understanding-scale-and-resolution) explains how it affects the scale and resolution.
 
 Google Maps satellite imagery will be used by default.
 
 ### Preferences file
 * `"url"` is the URL template that the program will use to download map tiles.
 * `"tile_size"` is the size of a single tile in pixels. The default is 256. 
-* `"tile_format"` determines how tiles will be decoded. The default is `"jpg"`. Use `"png"` for transparent tiles, such as in roads-only layers.
+* `"tile_format"` determines how tiles will be decoded as well as the number of channels in the final image. The default is `"jpg"`. Use `"png"` for transparent tiles, such as in roads-only layers.
 * `"dir"` is the directory where your images will be saved. If the directory doesn't exist, it will be created automatically.
 * `"headers"` are the headers that the program will use to make HTTP requests.
 
@@ -38,10 +38,10 @@ Optional:
 
 `preferences.json` can also be used to specify the coordinates and zoom level. If you leave one or more of the following fields empty, you will be asked to use the command line instead.
 
-* `"tl"` and `"br"` are the coordinates of the top-left and bottom-right corners of a rectangular area.
+* `"tl"` and `"br"` are the coordinates of the top-left and bottom-right corners of a rectangular region.
 * `"zoom"` is the zoom level.
 
-If you encounter any problems with the program, feel free to open an issue.
+> If you encounter any problems with the program, feel free to open an issue.
 
 ### Tile URL
 Here are some tile URLs that you can use:
@@ -51,14 +51,14 @@ Here are some tile URLs that you can use:
 * OpenStreetMap: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
 * Esri satellite imagery: `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`
 
-If you need to use tiles from a different map service, you can try to get the URL by inspecting network activity in your browser. Open developer tools (Ctrl+Shift+I) and go to the Network panel. If you scroll the map, it will show you what resources are being loaded. Find a tile, copy the URL and replace its coordinate and zoom values with `{x}`, `{y}` and `{z}`.
+If you need to use tiles from a different map service, you can try to get the URL by inspecting network activity in your browser. Open developer tools (Ctrl+Shift+I) and go to the Network panel. Now, if you scroll the map, it will show you what resources are being loaded. Find a tile, copy the URL and replace its coordinate and zoom values with `{x}`, `{y}` and `{z}`.
 
 ![](img/img_7.png)
 
 ---
 ## Examples
 
-Example images in high resolution: https://mega.nz/folder/7sxTwALS#n2bFCYk9JsiU7nbVQH-ntw
+Images in high resolution: https://mega.nz/folder/7sxTwALS#n2bFCYk9JsiU7nbVQH-ntw
 
 ![](img/img_2.png)
 <nobr><sup><sup>© 2022 Google</sup></sup></nobr>
