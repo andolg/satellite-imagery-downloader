@@ -11,7 +11,7 @@ prefs_path = os.path.join(file_dir, 'preferences.json')
 default_prefs = {
         'url': 'https://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
         'tile_size': 256,
-        'tile_format': 'jpg',
+        'channels': 3,
         'dir': os.path.join(file_dir, 'images'),
         'headers': {
             'cache-control': 'max-age=0',
@@ -63,18 +63,15 @@ def run():
     lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['br'])
 
     zoom = int(prefs['zoom'])
+    channels = int(prefs['channels'])
+    tile_size = int(prefs['tile_size'])
     lat1 = float(lat1)
     lon1 = float(lon1)
     lat2 = float(lat2)
     lon2 = float(lon2)
 
-    if prefs['tile_format'].lower() == 'png':
-        channels = 4
-    else:
-        channels = 3
-
     img = download_image(lat1, lon1, lat2, lon2, zoom, prefs['url'],
-        prefs['headers'], prefs['tile_size'], channels)
+        prefs['headers'], tile_size, channels)
 
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     name = f'img_{timestamp}.png'

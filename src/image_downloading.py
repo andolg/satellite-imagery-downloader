@@ -24,9 +24,9 @@ def project_with_scale(lat, lon, scale):
 
 
 def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
-    zoom: int, url: str, headers: dict, tile_size: int = 256, channels: str = 3) -> np.ndarray:
+    zoom: int, url: str, headers: dict, tile_size: int = 256, channels: int = 3) -> np.ndarray:
     """
-    Downloads a map region. Returns an image stored either in BGR or BGRA as a `numpy.ndarray`.
+    Downloads a map region. Returns an image stored as a `numpy.ndarray` in BGR or BGRA, depending on the number of `channels`.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
 
     `tile_size` - Tile size in pixels
 
-    `channels` - Number of channels in the output image. Use 3 for JPG or PNG tiles and 4 for PNG tiles.
+    `channels` - Number of channels in the output image. Also affects how the tiles are converted into numpy arrays.
     """
 
     scale = 1 << zoom
@@ -63,31 +63,34 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
 
     img_w = abs(tl_pixel_x - br_pixel_x)
     img_h = br_pixel_y - tl_pixel_y
-    img = np.ndarray((img_h, img_w, channels), np.uint8)
+    img = np.zeros((img_h, img_w, channels), np.uint8)
+
 
     def build_row(row_number):
         for j in range(tl_tile_x, br_tile_x + 1):
             tile = download_tile(url.format(x=j, y=row_number, z=zoom), headers, channels)
 
-            # Find the pixel coordinates of the new tile relative to the image
-            tl_rel_x = j * tile_size - tl_pixel_x
-            tl_rel_y = row_number * tile_size - tl_pixel_y
-            br_rel_x = tl_rel_x + tile_size
-            br_rel_y = tl_rel_y + tile_size
+            if tile is not None:
+                # Find the pixel coordinates of the new tile relative to the image
+                tl_rel_x = j * tile_size - tl_pixel_x
+                tl_rel_y = row_number * tile_size - tl_pixel_y
+                br_rel_x = tl_rel_x + tile_size
+                br_rel_y = tl_rel_y + tile_size
 
-            # Define where the tile will be placed on the image
-            i_x_l = max(0, tl_rel_x)
-            i_x_r = min(img_w + 1, br_rel_x)
-            i_y_l = max(0, tl_rel_y)
-            i_y_r = min(img_h + 1, br_rel_y)
+                # Define where the tile will be placed on the image
+                i_x_l = max(0, tl_rel_x)
+                i_x_r = min(img_w + 1, br_rel_x)
+                i_y_l = max(0, tl_rel_y)
+                i_y_r = min(img_h + 1, br_rel_y)
 
-            # Define how border tiles are cropped
-            cr_x_l = max(0, -tl_rel_x)
-            cr_x_r = tile_size + min(0, img_w - br_rel_x)
-            cr_y_l = max(0, -tl_rel_y)
-            cr_y_r = tile_size + min(0, img_h - br_rel_y)
+                # Define how border tiles will be cropped
+                cr_x_l = max(0, -tl_rel_x)
+                cr_x_r = tile_size + min(0, img_w - br_rel_x)
+                cr_y_l = max(0, -tl_rel_y)
+                cr_y_r = tile_size + min(0, img_h - br_rel_y)
 
-            img[i_y_l:i_y_r, i_x_l:i_x_r] = tile[cr_y_l:cr_y_r, cr_x_l:cr_x_r]
+                img[i_y_l:i_y_r, i_x_l:i_x_r] = tile[cr_y_l:cr_y_r, cr_x_l:cr_x_r]
+
 
     threads = []
     for i in range(tl_tile_y, br_tile_y + 1):
@@ -103,7 +106,7 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
 
 def image_size(lat1: float, lon1: float, lat2: float,
     lon2: float, zoom: int, tile_size: int = 256):
-    """ Calculates the size of an image without downloading it. Returns a `(width, height)` tuple. """
+    """ Calculates the size of an image without downloading it. Returns the width and height in pixels as a tuple. """
 
     scale = 1 << zoom
     tl_proj_x, tl_proj_y = project_with_scale(lat1, lon1, scale)
