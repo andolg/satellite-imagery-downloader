@@ -1,6 +1,7 @@
 # Custom
 generated/
 images/
+test/
 .vscode/
 t.py
 preferences.json

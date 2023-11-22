@@ -36,22 +36,22 @@ Google Maps satellite imagery will be used by default.
 
 Optional:
 
-`preferences.json` can also be used to specify the coordinates and zoom level. If you leave one or more of the following fields empty, you will be asked to use the command line instead.
+`preferences.json` can also be used to specify the coordinates and zoom level. If you leave one of the following fields empty, you will be asked to use the command line instead.
 
 * `"tl"` and `"br"` are the coordinates of the top-left and bottom-right corners of a rectangular region.
 * `"zoom"` is the zoom level.
 
 If you encounter any problems with the program, feel free to open an issue.
 
-### Tile URL
+## Tile URL
 Here are some tile URLs that you can use:
 
-* Google maps satellite imagery: `https://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={z}` (Default `"url"`)
-* Google Maps raster road map: `https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}`
-* OpenStreetMap: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
+* Google maps satellite imagery: `https://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={z}` (default `"url"`). 
+* Other Google Maps tile types: https://stackoverflow.com/questions/23017766/google-maps-tile-url-for-hybrid-maptype-tiles
+* OpenStreetMap: `https://tile.openstreetmap.org/{z}/{x}/{y}.png` or `https://tile.osmand.net/df/{z}/{x}/{y}.png`
 * Esri satellite imagery: `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`
 
-If you need to download an image from a different map service, you can try to get the tile URL using your browser. Open the map, then open developer tools (Ctrl+Shift+I) and go to the Network panel. When you refresh the page or scroll the map, it logs all the resources that are being downloaded. Find a tile, copy the URL and replace its coordinate and zoom values with `{x}`, `{y}` and `{z}`.
+If you need to download an image from a different map service, you can try to get the tile URL using your browser. Open the map, then open developer tools (Ctrl+Shift+I) and go to the Network panel. When you refresh the page or scroll the map, it logs the resources that are being downloaded. Find a tile, copy the URL and replace its coordinate and zoom values with `{x}`, `{y}` and `{z}`.
 
 ![](img/img_7.png)
 
