@@ -4,6 +4,8 @@ A Python program that downloads a rectangular map region by its geographic coord
 
 This program should work with any raster map that uses [Web Mercator](https://en.wikipedia.org/wiki/Web_Mercator_projection), including Google Maps, Esri and OpenStreetMap.
 
+You can find a Rust implementation [here](https://github.com/LeviLovie/satellite-imagery-downloader-rs).
+
 ![](img/img_1.png)
 <nobr><sup><sup>© 2023 Google</sup></sup></nobr>
 
@@ -58,7 +60,7 @@ If you need to download an image from a different map service, you can try to ge
 ---
 ## Examples
 
-Images in full resolution: https://mega.nz/folder/7sxTwALS#n2bFCYk9JsiU7nbVQH-ntw
+Example images in full resolution: https://mega.nz/folder/7sxTwALS#n2bFCYk9JsiU7nbVQH-ntw
 
 ![](img/img_2.png)
 <nobr><sup><sup>© 2022 Google</sup></sup></nobr>
