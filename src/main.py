@@ -59,8 +59,8 @@ def run():
         else:
             prefs['tl'], prefs['br'], prefs['zoom'] = inputs
 
-    lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['tl'])
-    lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|d+', prefs['br'])
+    lat1, lon1 = re.findall(r'[+-]?\d*\.\d+|\d+', prefs['tl'])
+    lat2, lon2 = re.findall(r'[+-]?\d*\.\d+|\d+', prefs['br'])
 
     zoom = int(prefs['zoom'])
     channels = int(prefs['channels'])
